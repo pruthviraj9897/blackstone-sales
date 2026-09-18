@@ -1,0 +1,25 @@
+import { useState } from 'react';
+import Marquee from 'react-fast-marquee';
+import { useReducedMotion } from 'framer-motion';
+import { ArrowUpRight, Box, Handshake, MapPin, Plus } from 'lucide-react';
+import { Action, Chapter, Reveal } from './Shared';
+
+export const EditorialMarquee = () => {
+  const reduced = useReducedMotion();
+  const [paused, setPaused] = useState(false);
+  return <div className="editorial-marquee" data-testid="editorial-marquee"><Marquee speed={28} play={!reduced && !paused} autoFill gradient={false}><span className="marquee-word">BUILDING TRUST.</span><Plus className="marquee-plus" strokeWidth={1.1} /><span className="marquee-word outline-word">CONSTRUCTING EXCELLENCE.</span><Plus className="marquee-plus" strokeWidth={1.1} /></Marquee><button data-testid="marquee-pause" aria-label={paused ? 'Play moving text' : 'Pause moving text'} className="marquee-control" onClick={() => setPaused(!paused)}>{paused ? 'PLAY' : 'PAUSE'}</button></div>;
+};
+
+export const Story = ({ onEnquire }) => <section id="about" className="story-section section-pad" data-testid="story-section"><div className="page-width">
+  <Chapter number="02" label="MORE THAN MATERIALS. A BUILDING PARTNER." light />
+  <div className="story-layout"><Reveal className="story-visual"><img src="/assets/construction.jpg" alt="Concrete building structure and formwork during construction" loading="lazy" /><div className="story-photo-shade" /><div className="story-photo-label"><span className="mono">THE NEXT CHAPTER STARTS HERE.</span><ArrowUpRight size={26} /></div><div className="story-brand-tile"><img src="/assets/brand-mark.png" alt="Mahalaxmi Corporation emblem" /><span>BUILDING TRUST.<br />CONSTRUCTING EXCELLENCE.</span></div><span className="story-vertical" aria-hidden="true">THE MAHALAXMI PROMISE</span></Reveal>
+  <Reveal className="story-copy" delay={0.12}><h2 data-testid="story-title">YOUR AMBITION.<br />OUR <span className="amber-text">BACKBONE.</span></h2><p className="story-intro" data-testid="story-description">Every great structure starts with dependable support. That’s where we come in.</p><p className="muted" data-testid="story-company-info">At Mahalaxmi Corporation, we supply centering, shuttering, scaffolding and timber materials for rent and sale. Based in Ankleshwar, we help builders get the right materials for the work ahead.</p><div className="promise-list">{[[Box, 'One depot. Multiple solutions.', 'From steel plates to timber supports, bring your requirements together.'], [Handshake, 'Real people. Straight answers.', 'Discuss sizes, quantities and rental terms directly with our team.'], [MapPin, 'Rooted in Ankleshwar.', 'Your local material partner, from planning through to returns.']].map(([Icon, title, text], i) => <div className="promise" key={title} data-testid={`company-promise-${i}`}><Icon size={21} strokeWidth={1.4} /><div><h3>{title}</h3><p>{text}</p></div><span className="mono">0{i + 1}</span></div>)}</div><Action testId="story-enquire" onClick={() => onEnquire()}>Build with Mahalaxmi</Action></Reveal></div>
+</div></section>;
+
+const steps = [
+  { title: 'TELL US THE PLAN.', desc: 'Share your material list, quantities and site location. A quick call or WhatsApp gets things moving.', tag: 'YOUR REQUIREMENT' },
+  { title: 'GET THE RIGHT FIT.', desc: 'We confirm material availability, rental terms and collection or transport arrangements with you.', tag: 'OUR RECOMMENDATION' },
+  { title: 'BUILD. RETURN. REPEAT.', desc: 'Put your materials to work, then coordinate returns and the final rental account with our team.', tag: 'YOUR NEXT MILESTONE' },
+];
+
+export const Process = ({ onEnquire }) => <section className="process-section section-pad" id="process" data-testid="process-section"><div className="page-width"><Chapter number="03" label="LESS FRICTION. MORE PROGRESS." /><Reveal className="section-heading"><h2 data-testid="process-title">BIG BUILDS.<br /><span>SIMPLE BEGINNINGS.</span></h2><p className="heading-aside" data-testid="process-intro">No complicated process.<br />Just the right support, from day one.</p></Reveal><div className="steps-grid">{steps.map((step, i) => <Reveal className="process-step" delay={i * 0.12} key={step.title}><div className="step-top"><span className="step-number" aria-hidden="true">0{i + 1}</span><ArrowUpRight size={28} strokeWidth={1} /></div><span className="eyebrow" data-testid={`process-tag-${i}`}>{step.tag}</span><h3 data-testid={`process-step-title-${i}`}>{step.title}</h3><p data-testid={`process-step-description-${i}`}>{step.desc}</p></Reveal>)}</div><button className="process-action" data-testid="process-start-enquiry" onClick={() => onEnquire()}><span>YOUR NEXT PROJECT STARTS WITH A CONVERSATION.</span><span>Let’s get started <ArrowUpRight size={19} /></span></button></div></section>;

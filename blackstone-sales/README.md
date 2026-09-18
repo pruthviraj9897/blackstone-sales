@@ -1,43 +1,82 @@
-# Mahalaxmi Corporation — Website (Static Build)
+# Mahalaxmi Corporation — Website
 
-This is a self-contained static site: one `index.html` with all CSS, JS, and
-images inlined. No build step, no dependencies, no `npm install` required.
+Reconstructed React source (Create React App + CRACO + Tailwind CSS) for the
+Mahalaxmi Corporation site, rebuilt from a captured production deploy.
 
-> Note: this is the hand-built static preview version (not the original React
-> source). It's fine for hosting as-is, but if you later want to go back to
-> editing the real React project, use the separate project zip instead.
+## What's in this build
+
+- The real `brand-mark.png` logo is now in `public/assets/`.
+- Scroll-reveal animations (`src/components/site/Shared.jsx`) use Framer
+  Motion's `useReducedMotion()` / `MotionConfig reducedMotion="user"`. This is
+  **intentional, standard accessibility behavior**: if a visitor's OS/browser
+  has "reduce motion" turned on, the animations are skipped by design and
+  content just appears instantly. That's not a bug — see note below if you
+  want to change it.
+- Smooth scrolling via `lenis`, toasts via `sonner`, dialogs via
+  `@radix-ui/react-dialog`.
+
+## Setup
+
+```bash
+npm install
+```
+
+Fill in your real values in `.env` (currently set to sensible defaults):
+
+```
+REACT_APP_WHATSAPP_BASE_URL=https://wa.me
+REACT_APP_MAPS_BASE_URL=https://www.google.com/maps/search/
+```
+
+## Local development
+
+```bash
+npm start
+```
+
+Opens at `http://localhost:3000`.
+
+## Production build
+
+```bash
+npm run build
+```
+
+Outputs static files to `build/`.
 
 ## Deploy to Vercel via GitHub
 
-1. **Create a new GitHub repo** and push this folder to it:
+1. Push this project to a new GitHub repo:
    ```bash
-   cd mahalaxmi-deploy
    git init
    git add .
-   git commit -m "Initial static site"
+   git commit -m "Initial commit"
    git branch -M main
    git remote add origin https://github.com/<your-username>/<repo-name>.git
    git push -u origin main
    ```
+2. Go to https://vercel.com/new and import the repo.
+3. Framework preset: **Create React App** (Vercel should auto-detect this).
+4. Build command / output directory are already set in `vercel.json`
+   (`npm run build` → `build/`), so you shouldn't need to change anything.
+5. Click **Deploy**.
 
-2. **Import the repo into Vercel**:
-   - Go to https://vercel.com/new
-   - Select your GitHub repo
-   - Framework preset: choose **"Other"** (this is plain static HTML, no framework)
-   - Build command: leave **empty**
-   - Output directory: leave as **default** (`.` / root) — `index.html` sits at the repo root
-   - Click **Deploy**
+## About the "no scroll animation" behavior
 
-That's it — Vercel will serve `index.html` directly with no build process.
+If you ever want animations to play regardless of a visitor's OS-level
+"reduce motion" setting (not generally recommended — some visitors rely on
+that setting for medical reasons), two changes would do it:
 
-## Local preview
+1. In `src/App.jsx`, remove `reducedMotion="user"` from `<MotionConfig>`.
+2. In `src/components/site/Shared.jsx`, change the `Reveal` component's
+   `initial` prop to always be `{ opacity: 0, y: 32 }` instead of
+   `reduced ? false : {...}`.
 
-Just open `index.html` in a browser, or run a quick local server:
-```bash
-python3 -m http.server 8000
-```
-then visit `http://localhost:8000`.
+## Notes
 
-## Custom domain
-
-Once deployed, add your domain under Vercel → Project → Settings → Domains.
+- This source was reconstructed from a browser capture of the deployed app
+  (via webpack source maps), so some file formatting may differ slightly from
+  the original, but functionality is preserved.
+- If anything doesn't compile cleanly, it's most likely a dependency version
+  mismatch — the `package.json` versions are best-effort reconstructions, not
+  pulled from a lockfile, since none was available in the capture.

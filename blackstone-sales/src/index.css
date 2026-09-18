@@ -1,0 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Manrope:wght@400;450;500;550;600;650;700;750;800&family=Space+Mono:wght@400;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root { --background: 0 0% 5%; --foreground: 45 14% 95%; --card: 0 0% 9%; --card-foreground: 0 0% 98%; --popover: 0 0% 8%; --popover-foreground: 0 0% 98%; --primary: 41 97% 56%; --primary-foreground: 0 0% 5%; --secondary: 0 0% 14%; --secondary-foreground: 0 0% 98%; --muted: 0 0% 15%; --muted-foreground: 0 0% 63%; --accent: 41 97% 56%; --accent-foreground: 0 0% 5%; --destructive: 0 63% 45%; --destructive-foreground: 0 0% 98%; --border: 0 0% 20%; --input: 0 0% 22%; --ring: 41 97% 56%; --radius: 0.125rem; }
+  * { @apply border-border; box-sizing: border-box; }
+  body { margin: 0; background: #101110; color: #f3f2ed; font-family: 'Manrope', sans-serif; -webkit-font-smoothing: antialiased; }
+  button, input, select, textarea { font: inherit; }
+  button, a { -webkit-tap-highlight-color: transparent; }
+  button { cursor: pointer; }
+  a { color: inherit; text-decoration: none; }
+  button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible { outline: 2px solid #f7b928; outline-offset: 5px; }
+  ::selection { background: #f7b928; color: #101110; }
+}
+
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-stopped { overflow: hidden; }
+.lenis.lenis-smooth iframe { pointer-events: none; }
+html { scroll-padding-top: 88px; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .01ms !important; } }
